@@ -10,6 +10,7 @@ on:
 concurrency: ${{ github.ref }}
 
 env:
+  ENV_FILE: env.yaml
   FUNCTION_NAME: digital-nitro-klaviyo-${{ github.ref_name }}
   GCP_SA: etl-167@dulcet-outlook-361714.iam.gserviceaccount.com
 
@@ -38,6 +39,9 @@ jobs:
 
       - uses: google-github-actions/setup-gcloud@v0
 
+      - run: |
+          echo "KLAVIYO_API_KEY: ${{ secrets.KLAVIYO_API_KEY }}" >> ${{ env.ENV_FILE }}
+
       - run: >-
           gcloud functions deploy ${{ env.FUNCTION_NAME }}
           --entry-point=main
@@ -49,4 +53,4 @@ jobs:
           --trigger-http
           --no-user-output-enabled
           --service-account=${{ env.GCP_SA }}
-          --allow-unauthenticated
+          --env-vars-file=${{ env.ENV_FILE }}

@@ -10,7 +10,7 @@ on:
 concurrency: ${{ github.ref }}
 
 env:
-  FUNCTION_NAME: roxtar-gmb-${{ github.ref_name }}
+  FUNCTION_NAME: digital-nitro-klaviyo-${{ github.ref_name }}
   GCP_SA: etl-167@dulcet-outlook-361714.iam.gserviceaccount.com
 
 jobs:

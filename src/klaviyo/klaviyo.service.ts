@@ -2,12 +2,12 @@ import axios, { AxiosInstance } from 'axios';
 import axiosThrottle from 'axios-request-throttle';
 import { Dayjs } from 'dayjs';
 
-import { Measurement } from './klaviyo.enum';
+import { Metric } from './klaviyo.interface';
 
-export const getClient = () => {
+export const getClient = (apiKey: string) => {
     const client = axios.create({
         baseURL: 'https://a.klaviyo.com/api/v1',
-        params: { api_key: process.env.KLAVIYO_API_KEY || '' },
+        params: { api_key: apiKey },
     });
 
     axiosThrottle.use(axios, { requestsPerSecond: 8 });
@@ -15,11 +15,9 @@ export const getClient = () => {
     return client;
 };
 
-type TMetricExportRequest = {
-    metricId: string;
+type TMetricExportRequest = Metric & {
     start: Dayjs;
     end: Dayjs;
-    measurement: Measurement;
 };
 
 type TMetricExportResponse = {
@@ -65,4 +63,8 @@ export const getMetricExport = (
                     value: values.pop(),
                 })),
             );
+        })
+        .catch((err) => {
+            axios.isAxiosError(err) && console.log(err.response?.data);
+            return Promise.reject(err);
         });

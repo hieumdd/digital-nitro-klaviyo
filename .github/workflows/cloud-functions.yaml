@@ -40,7 +40,8 @@ jobs:
       - uses: google-github-actions/setup-gcloud@v0
 
       - run: |
-          echo "KLAVIYO_API_KEY: ${{ secrets.KLAVIYO_API_KEY }}" >> ${{ env.ENV_FILE }}
+          echo "BALLPOINT_MARKETING_KLAVIYO_API_KEY: ${{ secrets.BALLPOINT_MARKETING_KLAVIYO_API_KEY }}" >> ${{ env.ENV_FILE }}
+          echo "CALL_PORTER_KLAVIYO_API_KEY: ${{ secrets.CALL_PORTER_KLAVIYO_API_KEY }}" >> ${{ env.ENV_FILE }}
 
       - run: >-
           gcloud functions deploy ${{ env.FUNCTION_NAME }}
